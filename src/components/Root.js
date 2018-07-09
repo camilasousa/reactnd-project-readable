@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { loadCategories } from '../actions/categories';
 
+import Header from './Header';
 
 class Root extends React.Component {
   componentDidMount() {
@@ -13,9 +14,7 @@ class Root extends React.Component {
   render() {
     return (
       <div>
-        {
-          this.props.categories && this.props.categories.map(cat => <div>{cat.name}</div>)
-        }
+        <Header categories={this.props.categories} />
       </div>
     );
   }
@@ -30,9 +29,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 Root.propTypes = {
-  categories: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-  })).isRequired,
+  ...Header.propTypes,
   listCategories: PropTypes.func.isRequired,
 };
 
