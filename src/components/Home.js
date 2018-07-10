@@ -8,7 +8,7 @@ import { loadPosts } from '../actions/posts';
 import Header from './Header';
 import PostList from './PostList';
 
-class Root extends React.Component {
+class Home extends React.Component {
   componentDidMount() {
     this.props.listCategories();
     this.props.listPosts();
@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => ({
   listPosts: () => dispatch(loadPosts()),
 });
 
-Root.propTypes = {
+Home.propTypes = {
   ...Header.propTypes,
   listCategories: PropTypes.func.isRequired,
 };
@@ -42,4 +42,4 @@ Root.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Root);
+)(Home);
