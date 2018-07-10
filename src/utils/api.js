@@ -10,3 +10,8 @@ export const fetchCategories = token =>
   fetch(`${API_PREFIX}/categories`, buildRequestOptions(token))
     .then(res => res.json())
     .then(res => res.categories);
+
+
+export const fetchPosts = token =>
+  fetch(`${API_PREFIX}/posts`, buildRequestOptions(token))
+    .then(res => res.json());
