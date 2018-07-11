@@ -15,3 +15,13 @@ export const fetchCategories = token =>
 export const fetchPosts = token =>
   fetch(`${API_PREFIX}/posts`, buildRequestOptions(token))
     .then(res => res.json());
+
+
+export const fetchPostsByCategory = (path, token) =>
+  fetch(`${API_PREFIX}/${path}/posts`, buildRequestOptions(token))
+    .then(res => res.json());
+
+
+export const fetchPost = (id, token) =>
+  fetch(`${API_PREFIX}/posts/${id}`, buildRequestOptions(token))
+    .then(res => res.json());

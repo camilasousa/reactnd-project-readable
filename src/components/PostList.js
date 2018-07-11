@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
+import { formatTimestamp } from '../utils/date-utils';
 
 const OPTIONS = [
   { value: 'timestamp', label: 'Date' },
@@ -16,11 +19,9 @@ const descSortPosts = (p1, p2, field) => {
   return 0;
 };
 
-const formatTimestamp = timestamp => new Date(timestamp).toLocaleString();
-
 const PostItem = ({ post }) => (
   <li>
-    <h3>{post.title}</h3>
+    <h3><Link to={`/posts/${post.id}`}>{post.title}</Link></h3>
     <p>{formatTimestamp(post.timestamp)}</p>
     <p>{post.voteScore}</p>
   </li>
