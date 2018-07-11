@@ -25,3 +25,7 @@ export const fetchPostsByCategory = (path, token) =>
 export const fetchPost = (id, token) =>
   fetch(`${API_PREFIX}/posts/${id}`, buildRequestOptions(token))
     .then(res => res.json());
+
+export const fetchComments = (postId, token) =>
+  fetch(`${API_PREFIX}/posts/${postId}/comments`, buildRequestOptions(token))
+    .then(res => res.json());

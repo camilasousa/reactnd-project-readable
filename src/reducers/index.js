@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 import { LIST_CATEGORIES } from '../actions/categories';
 import { LIST_POSTS, LIST_POSTS_BY_CATEGORY, GET_POST } from '../actions/posts';
+import { LIST_COMMENTS } from '../actions/comments';
 
 const categories = (state = [], action) => {
   switch (action.type) {
@@ -45,10 +46,23 @@ const postsById = (state = {}, action) => {
   }
 };
 
+const commentsByPostId = (state = {}, action) => {
+  switch (action.type) {
+    case LIST_COMMENTS :
+      return {
+        ...state,
+        [action.postId]: action.comments,
+      };
+    default :
+      return state;
+  }
+};
+
 const token = () => 'authorization-token';
 
 export default combineReducers({
   categories,
+  commentsByPostId,
   posts,
   postsByCategory,
   postsById,

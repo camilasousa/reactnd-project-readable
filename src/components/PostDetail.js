@@ -3,21 +3,32 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { loadPost } from '../actions/posts';
+import { loadComments } from '../actions/comments';
+
 import { formatTimestamp } from '../utils/date-utils';
+
+import CommentList from './CommentList';
+
 
 class PostDetail extends React.Component {
   componentDidMount() {
-    this.props.getPost(this.props.postId);
+    this.fetchData();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.postId !== this.props.postId) {
-      this.props.getPost(this.props.postId);
+      this.fetchData();
     }
   }
 
+  fetchData() {
+    const id = this.props.postId;
+    this.props.getPost(id);
+    this.props.listComments(id);
+  }
+
   render() {
-    const { post } = this.props;
+    const { post, comments } = this.props;
     if (!post) return null;
     return (
       <div>
@@ -26,6 +37,7 @@ class PostDetail extends React.Component {
         <p>{post.voteScore}</p>
         <p>{post.author}</p>
         <p>{post.body}</p>
+        <CommentList comments={comments} />
       </div>
     );
   }
@@ -36,14 +48,17 @@ const mapStateToProps = (state, ownProps) => {
   return {
     postId,
     post: state.postsById && state.postsById[postId],
+    comments: state.commentsByPostId && state.commentsByPostId[postId],
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   getPost: id => dispatch(loadPost(id)),
+  listComments: id => dispatch(loadComments(id)),
 });
 
 PostDetail.propTypes = {
+  ...CommentList.propTypes,
   postId: PropTypes.string.isRequired,
   post: PropTypes.shape({
     title: PropTypes.string.isRequired,
@@ -53,6 +68,7 @@ PostDetail.propTypes = {
     body: PropTypes.string.isRequired,
   }),
   getPost: PropTypes.func.isRequired,
+  listComments: PropTypes.func.isRequired,
 };
 
 PostDetail.defaultProps = {
