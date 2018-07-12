@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { formatTimestamp } from '../utils/date-utils';
 
+import CommentVoteScore from './CommentVoteScore';
+
 const CommentList = ({ comments }) => (
   <div>
     <h2>Comments</h2>
@@ -12,7 +14,7 @@ const CommentList = ({ comments }) => (
           <div key={comment.id}>
             <p>{comment.body}</p>
             <p>{formatTimestamp(comment.timestamp)}</p>
-            <p>{comment.voteScore}</p>
+            <CommentVoteScore voteScore={comment.voteScore} id={comment.id} />
             <p>{comment.author}</p>
           </div>
         ))

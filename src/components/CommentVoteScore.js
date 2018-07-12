@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
 
 import VoteScore from './VoteScore';
-import { downVotePost, upVotePost } from '../actions/posts';
+import { downVoteComment, upVoteComment } from '../actions/comments';
+
 
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
-  downVote: id => dispatch(downVotePost(id)),
-  upVote: id => dispatch(upVotePost(id)),
+  downVote: id => dispatch(downVoteComment(id)),
+  upVote: id => dispatch(upVoteComment(id)),
 });
 
 export default connect(

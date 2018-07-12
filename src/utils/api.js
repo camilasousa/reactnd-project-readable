@@ -39,3 +39,11 @@ export const updatePostVoteScore = (postId, data, token) =>
     body: JSON.stringify(data),
   }).then(res => res.json());
 
+export const updateCommentVoteScore = (commentId, data, token) =>
+  fetch(`${API_PREFIX}/comments/${commentId}`, {
+    ...buildRequestOptions(token),
+    method: 'POST',
+    mode: 'cors',
+    body: JSON.stringify(data),
+  }).then(res => res.json());
+
