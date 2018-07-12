@@ -8,7 +8,7 @@ import { loadComments } from '../actions/comments';
 import { formatTimestamp } from '../utils/date-utils';
 
 import CommentList from './CommentList';
-
+import PostVoteScore from './PostVoteScore';
 
 class PostDetail extends React.Component {
   componentDidMount() {
@@ -34,7 +34,7 @@ class PostDetail extends React.Component {
       <div>
         <h1>{post.title}</h1>
         <p>{formatTimestamp(post.timestamp)}</p>
-        <p>{post.voteScore}</p>
+        <PostVoteScore voteScore={post.voteScore} id={post.id} />
         <p>{post.author}</p>
         <p>{post.body}</p>
         <CommentList comments={comments} />
