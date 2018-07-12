@@ -3,6 +3,7 @@ const API_PREFIX = 'http://localhost:3001';
 const buildRequestOptions = token => ({
   headers: {
     Authorization: token,
+    'Content-Type': 'application/json; charset=utf-8',
   },
 });
 
@@ -29,3 +30,12 @@ export const fetchPost = (id, token) =>
 export const fetchComments = (postId, token) =>
   fetch(`${API_PREFIX}/posts/${postId}/comments`, buildRequestOptions(token))
     .then(res => res.json());
+
+export const updatePostVoteScore = (postId, data, token) =>
+  fetch(`${API_PREFIX}/posts/${postId}`, {
+    ...buildRequestOptions(token),
+    method: 'POST',
+    mode: 'cors',
+    body: JSON.stringify(data),
+  }).then(res => res.json());
+

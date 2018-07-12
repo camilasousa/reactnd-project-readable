@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { formatTimestamp } from '../utils/date-utils';
 
+import PostVoteScore from './PostVoteScore';
+
 const OPTIONS = [
   { value: 'timestamp', label: 'Date' },
   { value: 'voteScore', label: 'Vote Score' },
@@ -23,7 +25,7 @@ const PostItem = ({ post }) => (
   <li>
     <h3><Link to={`/posts/${post.id}`}>{post.title}</Link></h3>
     <p>{formatTimestamp(post.timestamp)}</p>
-    <p>{post.voteScore}</p>
+    <PostVoteScore post={post} />
   </li>
 );
 

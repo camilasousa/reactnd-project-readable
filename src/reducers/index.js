@@ -4,6 +4,9 @@ import { LIST_CATEGORIES } from '../actions/categories';
 import { LIST_POSTS, LIST_POSTS_BY_CATEGORY, GET_POST } from '../actions/posts';
 import { LIST_COMMENTS } from '../actions/comments';
 
+const updatePostInList = (list, post) =>
+  list && list.map(p => (p.id === post.id ? post : p));
+
 const categories = (state = [], action) => {
   switch (action.type) {
     case LIST_CATEGORIES :
@@ -15,6 +18,8 @@ const categories = (state = [], action) => {
 
 const posts = (state = [], action) => {
   switch (action.type) {
+    case GET_POST:
+      return updatePostInList(state, action.post);
     case LIST_POSTS :
       return action.posts;
     default :
@@ -24,6 +29,13 @@ const posts = (state = [], action) => {
 
 const postsByCategory = (state = {}, action) => {
   switch (action.type) {
+    case GET_POST: {
+      const category = action.post.category;
+      return {
+        ...state,
+        [category]: updatePostInList(state[category], action.post),
+      };
+    }
     case LIST_POSTS_BY_CATEGORY :
       return {
         ...state,

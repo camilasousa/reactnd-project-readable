@@ -1,4 +1,4 @@
-import { fetchPosts, fetchPostsByCategory, fetchPost } from '../utils/api';
+import { fetchPosts, fetchPostsByCategory, fetchPost, updatePostVoteScore } from '../utils/api';
 
 export const LIST_POSTS = 'LIST_POSTS';
 export const LIST_POSTS_BY_CATEGORY = 'LIST_POSTS_BY_CATEGORY';
@@ -32,5 +32,15 @@ export const loadPostsByCategory = categoryPath => (dispatch, getState) => (
 
 export const loadPost = id => (dispatch, getState) => (
   fetchPost(id, getState().token)
+    .then(post => dispatch(getPost(post)))
+);
+
+export const upVotePost = id => (dispatch, getState) => (
+  updatePostVoteScore(id, { option: 'upVote' }, getState().token)
+    .then(post => dispatch(getPost(post)))
+);
+
+export const downVotePost = id => (dispatch, getState) => (
+  updatePostVoteScore(id, { option: 'downVote' }, getState().token)
     .then(post => dispatch(getPost(post)))
 );
