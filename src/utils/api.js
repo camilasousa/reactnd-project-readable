@@ -1,3 +1,5 @@
+import uuid from 'uuid/v1';
+
 const API_PREFIX = 'http://localhost:3001';
 
 const buildRequestOptions = token => ({
@@ -47,3 +49,15 @@ export const updateCommentVoteScore = (commentId, data, token) =>
     body: JSON.stringify(data),
   }).then(res => res.json());
 
+
+export const createPost = (data, token) =>
+  fetch(`${API_PREFIX}/posts`, {
+    ...buildRequestOptions(token),
+    method: 'POST',
+    mode: 'cors',
+    body: JSON.stringify({
+      ...data,
+      id: uuid(),
+      timestamp: Date.now(),
+    }),
+  }).then(res => res.json());
