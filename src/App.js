@@ -3,12 +3,15 @@ import { Route } from 'react-router-dom';
 import Home from './components/Home';
 import Category from './components/Category';
 import PostDetail from './components/PostDetail';
+import PostForm from './components/PostForm';
+
 
 const App = () => (
   <div>
     <Route exact path="/" component={Home} />
     <Route path="/categories/:id" component={Category} />
     <Route path="/posts/:id" component={PostDetail} />
+    <Route exact path="/posts" component={PostForm} />
   </div>
 );
 

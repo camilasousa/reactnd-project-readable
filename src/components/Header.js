@@ -16,6 +16,7 @@ const Header = ({ categories }) => (
         ))
       }
     </ul>
+    <Link to="/posts">New Post</Link>
   </div>
 );
 
