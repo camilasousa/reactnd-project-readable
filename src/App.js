@@ -10,7 +10,8 @@ const App = () => (
   <div>
     <Route exact path="/" component={Home} />
     <Route path="/categories/:id" component={Category} />
-    <Route path="/posts/:id" component={PostDetail} />
+    <Route exact path="/posts/:id" component={PostDetail} />
+    <Route path="/posts/:id/edit" component={PostForm} />
     <Route exact path="/posts" component={PostForm} />
   </div>
 );

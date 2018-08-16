@@ -4,12 +4,14 @@ import {
   fetchPost,
   updatePostVoteScore,
   createPost,
+  updatePost,
 } from '../utils/api';
 
 export const LIST_POSTS = 'LIST_POSTS';
 export const LIST_POSTS_BY_CATEGORY = 'LIST_POSTS_BY_CATEGORY';
 export const GET_POST = 'GET_POST';
 export const POST_CREATED = 'POST_CREATED';
+export const POST_UPDATED = 'POST_UPDATED';
 
 export const listPosts = posts => ({
   type: LIST_POSTS,
@@ -29,6 +31,11 @@ export const getPost = post => ({
 
 export const postCreated = post => ({
   type: POST_CREATED,
+  post,
+});
+
+export const postUpdated = post => ({
+  type: POST_UPDATED,
   post,
 });
 
@@ -64,6 +71,17 @@ export const newPost = data => (dispatch, getState) => (
         throw Error('Ops, it was not possible to create post');
       }
       dispatch(postCreated(post));
+      return post;
+    })
+);
+
+export const changePost = (postId, data) => (dispatch, getState) => (
+  updatePost(postId, data, getState().token)
+    .then((post) => {
+      if (!post || post.error) {
+        throw Error('Ops, it was not possible to update post');
+      }
+      dispatch(postUpdated(post));
       return post;
     })
 );

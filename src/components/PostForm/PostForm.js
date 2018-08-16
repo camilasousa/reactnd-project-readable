@@ -6,13 +6,27 @@ import { withRouter } from 'react-router-dom';
 import Form from './Form';
 
 import { loadCategories } from '../../actions/categories';
-import { newPost } from '../../actions/posts';
+import { newPost, loadPost, changePost } from '../../actions/posts';
 
 class PostForm extends React.Component {
   state = { title: '', body: '', author: '', categoryPath: '', loading: false, hasError: false }
 
   componentDidMount() {
     this.props.listCategories();
+    this.fetchPost();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.postId !== this.props.postId) {
+      this.fetchPost();
+    }
+  }
+
+  fetchPost() {
+    const id = this.props.postId;
+    if (id) {
+      this.props.getPost(id);
+    }
   }
 
   handleSubmit = (data) => {
@@ -20,13 +34,19 @@ class PostForm extends React.Component {
       loading: true,
       hasError: false,
     });
-    this.props.createPost(data)
+
+    const action = (
+      this.props.postId ?
+        this.props.updatePost(this.props.postId, data) :
+        this.props.createPost(data)
+    );
+    action
       .then(post => this.props.history.push(`/posts/${post.id}`))
       .catch(() => this.setState({ hasError: true, loading: false }));
   }
 
   render() {
-    const { categories } = this.props;
+    const { categories, postId, post } = this.props;
     return (
       <div>
         <h1>New post</h1>
@@ -38,27 +58,41 @@ class PostForm extends React.Component {
           this.state.loading &&
             <p>Wait, creating post...</p>
         }
-        <Form
-          categories={categories}
-          onSubmit={this.handleSubmit}
-          disabled={this.state.loading}
-        />
+        {
+          !postId || (post && post.id === postId) ?
+            <Form
+              post={post}
+              categories={categories}
+              onSubmit={this.handleSubmit}
+              disabled={this.state.loading}
+            /> :
+            <p>Loading post...</p>
+        }
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  categories: state.categories,
-});
+const mapStateToProps = (state, ownProps) => {
+  const postId = ownProps.match.params.id;
+  return ({
+    postId,
+    post: state.postsById && state.postsById[postId],
+    categories: state.categories,
+  });
+};
 
 const mapDispatchToProps = dispatch => ({
+  getPost: id => dispatch(loadPost(id)),
   listCategories: () => dispatch(loadCategories()),
   createPost: data => dispatch(newPost(data)),
+  updatePost: (postId, data) => dispatch(changePost(postId, data)),
 });
 
 PostForm.propTypes = {
   createPost: PropTypes.func.isRequired,
+  getPost: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
   listCategories: PropTypes.func.isRequired,
   categories: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string.isRequired,
@@ -66,6 +100,18 @@ PostForm.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  post: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+  }),
+  postId: PropTypes.string,
+};
+
+PostForm.defaultProps = {
+  postId: null,
+  post: {},
 };
 
 export default connect(

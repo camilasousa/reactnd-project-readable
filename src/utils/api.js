@@ -61,3 +61,14 @@ export const createPost = (data, token) =>
       timestamp: Date.now(),
     }),
   }).then(res => res.json());
+
+
+export const updatePost = (postId, data, token) =>
+  fetch(`${API_PREFIX}/posts/${postId}`, {
+    ...buildRequestOptions(token),
+    method: 'PUT',
+    mode: 'cors',
+    body: JSON.stringify({
+      ...data,
+    }),
+  }).then(res => res.json());

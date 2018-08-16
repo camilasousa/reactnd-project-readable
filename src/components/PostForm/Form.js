@@ -28,7 +28,13 @@ CategorySelector.propTypes = {
 };
 
 class Form extends React.Component {
-  state = { title: '', body: '', author: '', categoryPath: '' };
+  state = {
+    title: '',
+    body: '',
+    author: '',
+    category: '',
+    ...this.props.post,
+  };
 
   handleChange = (e) => {
     this.setState({
@@ -76,9 +82,9 @@ class Form extends React.Component {
           disabled={disabled}
         />
         <CategorySelector
-          id="categoryPath"
+          id="category"
           categories={categories}
-          selectedValue={this.state.categoryPath}
+          selectedValue={this.state.category}
           onChange={this.handleChange}
           disabled={disabled}
         />
@@ -95,6 +101,16 @@ Form.propTypes = {
     name: PropTypes.string.isRequired,
   })).isRequired,
   disabled: PropTypes.bool.isRequired,
+  post: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+  }),
+};
+
+Form.defaultProps = {
+  post: {},
 };
 
 export default Form;
