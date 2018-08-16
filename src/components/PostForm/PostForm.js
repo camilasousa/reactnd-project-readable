@@ -9,7 +9,7 @@ import { loadCategories } from '../../actions/categories';
 import { newPost, loadPost, changePost } from '../../actions/posts';
 
 class PostForm extends React.Component {
-  state = { title: '', body: '', author: '', categoryPath: '', loading: false, hasError: false }
+  state = { loading: false, hasError: false }
 
   componentDidMount() {
     this.props.listCategories();
