@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { loadPost } from '../actions/posts';
 import { loadComments } from '../actions/comments';
@@ -38,6 +39,7 @@ class PostDetail extends React.Component {
         <PostVoteScore voteScore={post.voteScore} id={post.id} />
         <p>{post.author}</p>
         <p>{post.body}</p>
+        <Link to={`/posts/${post.id}/edit`}>Edit</Link>
         <CommentList comments={comments} />
         <CommentForm postId={post.id} onSuccess={() => {}} />
       </div>
