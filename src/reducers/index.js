@@ -1,8 +1,14 @@
 import { combineReducers } from 'redux';
-import { updateItemInList } from '../utils/list-utils';
 
 import { LIST_CATEGORIES } from '../actions/categories';
-import { LIST_POSTS, LIST_POSTS_BY_CATEGORY, GET_POST, POST_REMOVED } from '../actions/posts';
+import {
+  LIST_POSTS,
+  LIST_POSTS_BY_CATEGORY,
+  GET_POST,
+  POST_CREATED,
+  POST_UPDATED,
+  POST_REMOVED,
+} from '../actions/posts';
 import {
   LIST_COMMENTS,
   COMMENT_UPDATED,
@@ -20,30 +26,12 @@ const categories = (state = [], action) => {
   }
 };
 
-const posts = (state = [], action) => {
+const postIdsByCategory = (state = {}, action) => {
   switch (action.type) {
-    case GET_POST:
-      return updateItemInList(state, action.post);
-    case LIST_POSTS :
-      return action.posts;
-    default :
-      return state;
-  }
-};
-
-const postsByCategory = (state = {}, action) => {
-  switch (action.type) {
-    case GET_POST: {
-      const category = action.post.category;
-      return {
-        ...state,
-        [category]: updateItemInList(state[category], action.post),
-      };
-    }
     case LIST_POSTS_BY_CATEGORY :
       return {
         ...state,
-        [action.categoryPath]: action.posts,
+        [action.categoryPath]: action.posts.map(p => p.id),
       };
     default :
       return state;
@@ -52,7 +40,9 @@ const postsByCategory = (state = {}, action) => {
 
 const postsById = (state = {}, action) => {
   switch (action.type) {
-    case GET_POST :
+    case GET_POST:
+    case POST_UPDATED:
+    case POST_CREATED:
       return {
         ...state,
         [action.post.id]: action.post,
@@ -61,6 +51,16 @@ const postsById = (state = {}, action) => {
       const { [action.postId]: value, ...newState } = state;
       return newState;
     }
+    case LIST_POSTS_BY_CATEGORY:
+      return {
+        ...state,
+        ...action.posts.reduce((acc, post) => ({ ...acc, [post.id]: post }), {}),
+      };
+    case LIST_POSTS :
+      return {
+        ...state,
+        ...action.posts.reduce((acc, post) => ({ ...acc, [post.id]: post }), {}),
+      };
     default :
       return state;
   }
@@ -114,8 +114,7 @@ const token = () => 'authorization-token';
 export default combineReducers({
   categories,
   commentIdsByPostId,
-  posts,
-  postsByCategory,
+  postIdsByCategory,
   postsById,
   commentsById,
   token,

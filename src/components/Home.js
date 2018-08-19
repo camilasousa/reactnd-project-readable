@@ -26,7 +26,7 @@ class Home extends React.Component {
 
 const mapStateToProps = state => ({
   categories: state.categories,
-  posts: state.posts,
+  posts: (state.postsById && Object.values(state.postsById)) || [],
 });
 
 const mapDispatchToProps = dispatch => ({

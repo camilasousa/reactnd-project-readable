@@ -30,12 +30,21 @@ class Category extends React.Component {
   }
 }
 
+const mapPostsByCategory = (category, state) => {
+  if (!state.postIdsByCategory[category] || !state.postsById) {
+    return [];
+  }
+
+  return state.postIdsByCategory[category].map(id => state.postsById[id]).filter(p => p);
+};
+
+
 const mapStateToProps = (state, ownProps) => {
   const categoryPath = ownProps.match.params.id;
   return {
     categories: state.categories,
     categoryPath,
-    posts: state.postsByCategory[categoryPath] || [],
+    posts: mapPostsByCategory(categoryPath, state),
   };
 };
 
