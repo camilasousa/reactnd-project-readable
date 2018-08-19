@@ -1,7 +1,15 @@
-import { fetchComments, updateCommentVoteScore } from '../utils/api';
+import {
+  fetchComments,
+  fetchComment,
+  updateCommentVoteScore,
+  createComment,
+  updateComment,
+} from '../utils/api';
 
 export const LIST_COMMENTS = 'LIST_COMMENTS';
-export const UPDATE_COMMENT = 'UPDATE_COMMENT';
+export const COMMENT_UPDATED = 'COMMENT_UPDATED';
+export const COMMENT_CREATED = 'COMMENT_CREATED';
+export const COMMENT_LOADED = 'COMMENT_LOADED';
 
 export const listComments = (postId, comments) => ({
   type: LIST_COMMENTS,
@@ -9,8 +17,18 @@ export const listComments = (postId, comments) => ({
   postId,
 });
 
-export const updateComment = comment => ({
-  type: UPDATE_COMMENT,
+export const commentLoaded = comment => ({
+  type: COMMENT_LOADED,
+  comment,
+});
+
+export const commentUpdated = comment => ({
+  type: COMMENT_UPDATED,
+  comment,
+});
+
+export const commentCreated = comment => ({
+  type: COMMENT_CREATED,
   comment,
 });
 
@@ -19,12 +37,42 @@ export const loadComments = postId => (dispatch, getState) => (
     .then(comments => dispatch(listComments(postId, comments)))
 );
 
+export const loadComment = commentId => (dispatch, getState) =>
+  fetchComment(commentId, getState().token)
+    .then((comment) => {
+      dispatch(commentLoaded(comment));
+      return comment;
+    });
+
+
 export const upVoteComment = id => (dispatch, getState) => (
   updateCommentVoteScore(id, { option: 'upVote' }, getState().token)
-    .then(comment => dispatch(updateComment(comment)))
+    .then(comment => dispatch(commentUpdated(comment)))
 );
 
 export const downVoteComment = id => (dispatch, getState) => (
   updateCommentVoteScore(id, { option: 'downVote' }, getState().token)
-    .then(comment => dispatch(updateComment(comment)))
+    .then(comment => dispatch(commentUpdated(comment)))
+);
+
+export const newComment = (postId, data) => (dispatch, getState) => (
+  createComment(postId, data, getState().token)
+    .then((comment) => {
+      if (!comment || comment.error || !comment.id) {
+        throw Error('Ops, it was not possible to create post');
+      }
+      dispatch(commentCreated(comment));
+      return comment;
+    })
+);
+
+export const changeComment = (commentId, data) => (dispatch, getState) => (
+  updateComment(commentId, data, getState().token)
+    .then((comment) => {
+      if (!comment || comment.error) {
+        throw Error('Ops, it was not possible to update post');
+      }
+      dispatch(commentUpdated(comment));
+      return comment;
+    })
 );

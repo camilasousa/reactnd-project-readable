@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import { formatTimestamp } from '../utils/date-utils';
 
@@ -12,7 +13,7 @@ const CommentList = ({ comments }) => (
       {
         comments && comments.map(comment => (
           <div key={comment.id}>
-            <p>{comment.body}</p>
+            <Link to={`/comments/${comment.id}/edit`}><p>{comment.body}</p></Link>
             <p>{formatTimestamp(comment.timestamp)}</p>
             <CommentVoteScore voteScore={comment.voteScore} id={comment.id} />
             <p>{comment.author}</p>

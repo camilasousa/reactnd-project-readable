@@ -9,6 +9,7 @@ import { formatTimestamp } from '../utils/date-utils';
 
 import CommentList from './CommentList';
 import PostVoteScore from './PostVoteScore';
+import CommentForm from './CommentForm';
 
 class PostDetail extends React.Component {
   componentDidMount() {
@@ -38,6 +39,7 @@ class PostDetail extends React.Component {
         <p>{post.author}</p>
         <p>{post.body}</p>
         <CommentList comments={comments} />
+        <CommentForm postId={post.id} onSuccess={() => {}} />
       </div>
     );
   }
