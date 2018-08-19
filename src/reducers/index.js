@@ -1,9 +1,15 @@
 import { combineReducers } from 'redux';
+import { updateItemInList } from '../utils/list-utils';
 
 import { LIST_CATEGORIES } from '../actions/categories';
 import { LIST_POSTS, LIST_POSTS_BY_CATEGORY, GET_POST, POST_REMOVED } from '../actions/posts';
-import { LIST_COMMENTS, COMMENT_UPDATED, COMMENT_CREATED, COMMENT_LOADED } from '../actions/comments';
-import { updateItemInList } from '../utils/list-utils';
+import {
+  LIST_COMMENTS,
+  COMMENT_UPDATED,
+  COMMENT_CREATED,
+  COMMENT_LOADED,
+  COMMENT_REMOVED,
+} from '../actions/comments';
 
 const categories = (state = [], action) => {
   switch (action.type) {
@@ -75,31 +81,28 @@ const commentsById = (state = {}, action) => {
         ...state,
         ...action.comments.reduce((acc, comm) => ({ ...acc, [comm.id]: comm }), {}),
       };
+    case COMMENT_REMOVED: {
+      const { [action.commentId]: value, ...newState } = state;
+      return newState;
+    }
     default :
       return state;
   }
 };
 
-const commentsByPostId = (state = {}, action) => {
+const commentIdsByPostId = (state = {}, action) => {
   switch (action.type) {
     case COMMENT_CREATED: {
       const postId = action.comment.parentId;
       return {
         ...state,
-        [postId]: [...(state[postId] || []), action.comment],
-      };
-    }
-    case COMMENT_UPDATED: {
-      const postId = action.comment.parentId;
-      return {
-        ...state,
-        [postId]: updateItemInList(state[postId], action.comment),
+        [postId]: [...(state[postId] || []), action.comment.id],
       };
     }
     case LIST_COMMENTS :
       return {
         ...state,
-        [action.postId]: action.comments,
+        [action.postId]: action.comments.map(c => c.id),
       };
     default :
       return state;
@@ -110,7 +113,7 @@ const token = () => 'authorization-token';
 
 export default combineReducers({
   categories,
-  commentsByPostId,
+  commentIdsByPostId,
   posts,
   postsByCategory,
   postsById,

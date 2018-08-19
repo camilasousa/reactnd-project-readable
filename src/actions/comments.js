@@ -4,12 +4,14 @@ import {
   updateCommentVoteScore,
   createComment,
   updateComment,
+  deleteComment,
 } from '../utils/api';
 
 export const LIST_COMMENTS = 'LIST_COMMENTS';
 export const COMMENT_UPDATED = 'COMMENT_UPDATED';
 export const COMMENT_CREATED = 'COMMENT_CREATED';
 export const COMMENT_LOADED = 'COMMENT_LOADED';
+export const COMMENT_REMOVED = 'COMMENT_REMOVED';
 
 export const listComments = (postId, comments) => ({
   type: LIST_COMMENTS,
@@ -32,6 +34,11 @@ export const commentCreated = comment => ({
   comment,
 });
 
+export const commentRemoved = commentId => ({
+  type: COMMENT_REMOVED,
+  commentId,
+});
+
 export const loadComments = postId => (dispatch, getState) => (
   fetchComments(postId, getState().token)
     .then(comments => dispatch(listComments(postId, comments)))
@@ -43,6 +50,10 @@ export const loadComment = commentId => (dispatch, getState) =>
       dispatch(commentLoaded(comment));
       return comment;
     });
+
+export const removeComment = commentId => (dispatch, getState) =>
+  deleteComment(commentId, getState().token)
+    .then(() => dispatch(commentRemoved(commentId)));
 
 
 export const upVoteComment = id => (dispatch, getState) => (

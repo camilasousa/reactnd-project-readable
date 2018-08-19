@@ -53,12 +53,21 @@ class PostDetail extends React.Component {
   }
 }
 
+const mapComments = (state, postId) => {
+  if (!state.commentIdsByPostId || !state.commentIdsByPostId[postId] || !state.commentsById) {
+    return null;
+  }
+  return state.commentIdsByPostId[postId]
+    .map(id => state.commentsById[id])
+    .filter(c => c);
+};
+
 const mapStateToProps = (state, ownProps) => {
   const postId = ownProps.match.params.id;
   return {
     postId,
     post: state.postsById && state.postsById[postId],
-    comments: state.commentsByPostId && state.commentsByPostId[postId],
+    comments: mapComments(state, postId),
   };
 };
 

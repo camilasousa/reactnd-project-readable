@@ -109,3 +109,11 @@ export const updateComment = (commentId, data, token) =>
       ...data,
     }),
   }).then(res => res.json());
+
+
+export const deleteComment = (commentId, token) =>
+  fetch(`${API_PREFIX}/comments/${commentId}`, {
+    ...buildRequestOptions(token),
+    method: 'DELETE',
+    mode: 'cors',
+  }).then(res => res.json());
