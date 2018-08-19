@@ -5,6 +5,7 @@ import {
   updatePostVoteScore,
   createPost,
   updatePost,
+  deletePost,
 } from '../utils/api';
 
 export const LIST_POSTS = 'LIST_POSTS';
@@ -12,6 +13,7 @@ export const LIST_POSTS_BY_CATEGORY = 'LIST_POSTS_BY_CATEGORY';
 export const GET_POST = 'GET_POST';
 export const POST_CREATED = 'POST_CREATED';
 export const POST_UPDATED = 'POST_UPDATED';
+export const POST_REMOVED = 'POST_REMOVED';
 
 export const listPosts = posts => ({
   type: LIST_POSTS,
@@ -37,6 +39,11 @@ export const postCreated = post => ({
 export const postUpdated = post => ({
   type: POST_UPDATED,
   post,
+});
+
+export const postRemoved = postId => ({
+  type: POST_REMOVED,
+  postId,
 });
 
 export const loadPosts = () => (dispatch, getState) => (
@@ -85,3 +92,7 @@ export const changePost = (postId, data) => (dispatch, getState) => (
       return post;
     })
 );
+
+export const removePost = postId => (dispatch, getState) =>
+  deletePost(postId, getState().token)
+    .then(() => dispatch(postRemoved(postId)));

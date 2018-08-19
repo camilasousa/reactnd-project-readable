@@ -78,6 +78,14 @@ export const updatePost = (postId, data, token) =>
   }).then(res => res.json());
 
 
+export const deletePost = (postId, token) =>
+  fetch(`${API_PREFIX}/posts/${postId}`, {
+    ...buildRequestOptions(token),
+    method: 'DELETE',
+    mode: 'cors',
+  }).then(res => res.json());
+
+
 export const createComment = (postId, data, token) =>
   fetch(`${API_PREFIX}/comments`, {
     ...buildRequestOptions(token),

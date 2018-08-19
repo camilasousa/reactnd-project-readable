@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { LIST_CATEGORIES } from '../actions/categories';
-import { LIST_POSTS, LIST_POSTS_BY_CATEGORY, GET_POST } from '../actions/posts';
+import { LIST_POSTS, LIST_POSTS_BY_CATEGORY, GET_POST, POST_REMOVED } from '../actions/posts';
 import { LIST_COMMENTS, COMMENT_UPDATED, COMMENT_CREATED, COMMENT_LOADED } from '../actions/comments';
 import { updateItemInList } from '../utils/list-utils';
 
@@ -51,6 +51,10 @@ const postsById = (state = {}, action) => {
         ...state,
         [action.post.id]: action.post,
       };
+    case POST_REMOVED: {
+      const { [action.postId]: value, ...newState } = state;
+      return newState;
+    }
     default :
       return state;
   }

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-import { loadPost } from '../actions/posts';
+import { loadPost, removePost } from '../actions/posts';
 import { loadComments } from '../actions/comments';
 
 import { formatTimestamp } from '../utils/date-utils';
@@ -29,6 +29,11 @@ class PostDetail extends React.Component {
     this.props.listComments(id);
   }
 
+  handleOnDelete = () => {
+    this.props.deletePost(this.props.postId)
+      .then(() => this.props.history.push('/'));
+  }
+
   render() {
     const { post, comments } = this.props;
     if (!post) return null;
@@ -40,6 +45,7 @@ class PostDetail extends React.Component {
         <p>{post.author}</p>
         <p>{post.body}</p>
         <Link to={`/posts/${post.id}/edit`}>Edit</Link>
+        <button onClick={this.handleOnDelete}>Delete</button>
         <CommentList comments={comments} />
         <CommentForm postId={post.id} onSuccess={() => {}} />
       </div>
@@ -59,6 +65,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   getPost: id => dispatch(loadPost(id)),
   listComments: id => dispatch(loadComments(id)),
+  deletePost: id => dispatch(removePost(id)),
 });
 
 PostDetail.propTypes = {
@@ -82,4 +89,4 @@ PostDetail.defaultProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PostDetail);
+)(withRouter(PostDetail));
