@@ -111,7 +111,7 @@ PostForm.propTypes = {
 
 PostForm.defaultProps = {
   postId: null,
-  post: {},
+  post: null,
 };
 
 export default connect(
