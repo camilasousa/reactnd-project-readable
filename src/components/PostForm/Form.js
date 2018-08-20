@@ -32,7 +32,7 @@ class Form extends React.Component {
     title: '',
     body: '',
     author: '',
-    category: '',
+    category: this.props.categories && this.props.categories[0] && this.props.categories[0].path,
     ...this.props.post,
   };
 
