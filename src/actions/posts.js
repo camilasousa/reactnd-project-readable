@@ -11,64 +11,64 @@ import {
 export const LIST_POSTS = 'LIST_POSTS';
 export const LIST_POSTS_BY_CATEGORY = 'LIST_POSTS_BY_CATEGORY';
 export const GET_POST = 'GET_POST';
-export const POST_CREATED = 'POST_CREATED';
-export const POST_UPDATED = 'POST_UPDATED';
-export const POST_REMOVED = 'POST_REMOVED';
+export const CREATE_POST = 'CREATE_POST';
+export const UPDATE_POST = 'UPDATE_POST';
+export const REMOVE_POST = 'REMOVE_POST';
 
-export const listPosts = posts => ({
+const loadedPostList = posts => ({
   type: LIST_POSTS,
   posts,
 });
 
-export const listPostsByCategory = (categoryPath, posts) => ({
+const loadedPostsByCategory = (categoryPath, posts) => ({
   type: LIST_POSTS_BY_CATEGORY,
   categoryPath,
   posts,
 });
 
-export const getPost = post => ({
+const loadedPost = post => ({
   type: GET_POST,
   post,
 });
 
-export const postCreated = post => ({
-  type: POST_CREATED,
+const createdPost = post => ({
+  type: CREATE_POST,
   post,
 });
 
-export const postUpdated = post => ({
-  type: POST_UPDATED,
+const updatedPost = post => ({
+  type: UPDATE_POST,
   post,
 });
 
-export const postRemoved = postId => ({
-  type: POST_REMOVED,
+const removedPost = postId => ({
+  type: REMOVE_POST,
   postId,
 });
 
 export const loadPosts = () => (dispatch, getState) => (
   fetchPosts(getState().token)
-    .then(posts => dispatch(listPosts(posts)))
+    .then(posts => dispatch(loadedPostList(posts)))
 );
 
 export const loadPostsByCategory = categoryPath => (dispatch, getState) => (
   fetchPostsByCategory(categoryPath, getState().token)
-    .then(posts => dispatch(listPostsByCategory(categoryPath, posts)))
+    .then(posts => dispatch(loadedPostsByCategory(categoryPath, posts)))
 );
 
 export const loadPost = id => (dispatch, getState) => (
   fetchPost(id, getState().token)
-    .then(post => dispatch(getPost(post)))
+    .then(post => dispatch(loadedPost(post)))
 );
 
 export const upVotePost = id => (dispatch, getState) => (
   updatePostVoteScore(id, { option: 'upVote' }, getState().token)
-    .then(post => dispatch(getPost(post)))
+    .then(post => dispatch(updatedPost(post)))
 );
 
 export const downVotePost = id => (dispatch, getState) => (
   updatePostVoteScore(id, { option: 'downVote' }, getState().token)
-    .then(post => dispatch(getPost(post)))
+    .then(post => dispatch(updatedPost(post)))
 );
 
 export const newPost = data => (dispatch, getState) => (
@@ -77,7 +77,7 @@ export const newPost = data => (dispatch, getState) => (
       if (!post || post.error || !post.id) {
         throw Error('Ops, it was not possible to create post');
       }
-      dispatch(postCreated(post));
+      dispatch(createdPost(post));
       return post;
     })
 );
@@ -88,11 +88,11 @@ export const changePost = (postId, data) => (dispatch, getState) => (
       if (!post || post.error) {
         throw Error('Ops, it was not possible to update post');
       }
-      dispatch(postUpdated(post));
+      dispatch(updatedPost(post));
       return post;
     })
 );
 
 export const removePost = postId => (dispatch, getState) =>
   deletePost(postId, getState().token)
-    .then(() => dispatch(postRemoved(postId)));
+    .then(() => dispatch(removedPost(postId)));

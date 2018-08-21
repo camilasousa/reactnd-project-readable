@@ -5,16 +5,16 @@ import {
   LIST_POSTS,
   LIST_POSTS_BY_CATEGORY,
   GET_POST,
-  POST_CREATED,
-  POST_UPDATED,
-  POST_REMOVED,
+  CREATE_POST,
+  UPDATE_POST,
+  REMOVE_POST,
 } from '../actions/posts';
 import {
   LIST_COMMENTS,
-  COMMENT_UPDATED,
-  COMMENT_CREATED,
-  COMMENT_LOADED,
-  COMMENT_REMOVED,
+  UPDATE_COMMENT,
+  CREATE_COMMENT,
+  GET_COMMENT,
+  REMOVE_COMMENT,
 } from '../actions/comments';
 
 const categories = (state = [], action) => {
@@ -41,13 +41,13 @@ const postIdsByCategory = (state = {}, action) => {
 const postsById = (state = {}, action) => {
   switch (action.type) {
     case GET_POST:
-    case POST_UPDATED:
-    case POST_CREATED:
+    case UPDATE_POST:
+    case CREATE_POST:
       return {
         ...state,
         [action.post.id]: action.post,
       };
-    case POST_REMOVED: {
+    case REMOVE_POST: {
       const { [action.postId]: value, ...newState } = state;
       return newState;
     }
@@ -68,9 +68,9 @@ const postsById = (state = {}, action) => {
 
 const commentsById = (state = {}, action) => {
   switch (action.type) {
-    case COMMENT_LOADED:
-    case COMMENT_CREATED:
-    case COMMENT_UPDATED: {
+    case GET_COMMENT:
+    case CREATE_COMMENT:
+    case UPDATE_COMMENT: {
       return {
         ...state,
         [action.comment.id]: action.comment,
@@ -81,7 +81,7 @@ const commentsById = (state = {}, action) => {
         ...state,
         ...action.comments.reduce((acc, comm) => ({ ...acc, [comm.id]: comm }), {}),
       };
-    case COMMENT_REMOVED: {
+    case REMOVE_COMMENT: {
       const { [action.commentId]: value, ...newState } = state;
       return newState;
     }
@@ -92,7 +92,7 @@ const commentsById = (state = {}, action) => {
 
 const commentIdsByPostId = (state = {}, action) => {
   switch (action.type) {
-    case COMMENT_CREATED: {
+    case CREATE_COMMENT: {
       const postId = action.comment.parentId;
       return {
         ...state,
