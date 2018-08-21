@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 const VoteScore = ({ id, voteScore, upVote, downVote }) => (
   <div>
-    <button onClick={() => upVote(id)}>+</button>
+    <button className="inline-button" onClick={() => upVote(id)}>+</button>
     <span>{voteScore}</span>
-    <button onClick={() => downVote(id)}>-</button>
+    <button className="inline-button" onClick={() => downVote(id)}>-</button>
   </div>
 );
 

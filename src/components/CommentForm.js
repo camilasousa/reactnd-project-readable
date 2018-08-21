@@ -95,7 +95,7 @@ class CommentForm extends React.Component {
           value={this.state.author}
           onChange={this.handleChange}
         />
-        <input type="submit" value="Submit" />
+        <input className="submit" type="submit" value="Submit" />
       </form>
     );
   }

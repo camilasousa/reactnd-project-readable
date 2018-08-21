@@ -88,7 +88,7 @@ class Form extends React.Component {
           onChange={this.handleChange}
           disabled={disabled}
         />
-        <input type="submit" value="Submit" disabled={disabled} />
+        <input className="submit" type="submit" value="Submit" disabled={disabled} />
       </form>
     );
   }

@@ -43,9 +43,9 @@ class PostDetail extends React.Component {
         <p>{formatTimestamp(post.timestamp)}</p>
         <PostVoteScore voteScore={post.voteScore} id={post.id} />
         <p>{post.author}</p>
-        <p>{post.body}</p>
+        <p>Author: {post.body}</p>
         <Link to={`/posts/${post.id}/edit`}>Edit</Link>
-        <button onClick={this.handleOnDelete}>Delete</button>
+        <button className="inline-button" onClick={this.handleOnDelete}>Delete</button>
         <CommentList comments={comments} />
         <CommentForm postId={post.id} onSuccess={() => {}} />
       </div>
