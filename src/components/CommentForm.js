@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import InlineMessage from './InlineMessage';
+
 import { newComment, changeComment, loadComment } from '../actions/comments';
 
 class CommentForm extends React.Component {
@@ -68,10 +70,10 @@ class CommentForm extends React.Component {
 
   renderForm() {
     if (this.state.loading) {
-      return (<p>Wait, creating comment...</p>);
+      return <InlineMessage message="Wait, creating comment..." type="info" />;
     }
     if (this.props.commentId && !this.props.comment) {
-      return (<p>Wait, loading comment... </p>);
+      return <InlineMessage message="Wait, loading comment..." type="info" />;
     }
     return (
       <form onSubmit={this.handleSubmit}>
@@ -104,7 +106,7 @@ class CommentForm extends React.Component {
         <h1>New comment</h1>
         {
           this.state.hasError &&
-            <p>An error ocurred, please try again.</p>
+            <InlineMessage message="An error ocurred, please try again." type="error" />
         }
         { this.renderForm() }
       </div>

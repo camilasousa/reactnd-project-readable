@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Form from './Form';
+import InlineMessage from '../InlineMessage';
 
 import { loadCategories } from '../../actions/categories';
 import { newPost, loadPost, changePost } from '../../actions/posts';
+
 
 class PostForm extends React.Component {
   state = { loading: false, hasError: false }
@@ -52,11 +54,11 @@ class PostForm extends React.Component {
         <h1>New post</h1>
         {
           this.state.hasError &&
-            <p>An error ocurred, please try again.</p>
+            <InlineMessage message="An error ocurred, please try again." type="error" />
         }
         {
           this.state.loading &&
-            <p>Wait, creating post...</p>
+            <InlineMessage message="Wait, creating post..." type="info" />
         }
         {
           !postId || (post && post.id === postId) ?
@@ -66,7 +68,7 @@ class PostForm extends React.Component {
               onSubmit={this.handleSubmit}
               disabled={this.state.loading}
             /> :
-            <p>Loading post...</p>
+            <InlineMessage message="Loading post..." type="info" />
         }
       </div>
     );
