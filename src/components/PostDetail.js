@@ -59,7 +59,8 @@ const mapComments = (state, postId) => {
   }
   return state.commentIdsByPostId[postId]
     .map(id => state.commentsById[id])
-    .filter(c => c);
+    .filter(c => c)
+    .sort((a, b) => (b.voteScore - a.voteScore));
 };
 
 const mapStateToProps = (state, ownProps) => {
