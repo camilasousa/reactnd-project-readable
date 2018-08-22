@@ -39,6 +39,7 @@ class PostDetail extends React.Component {
     if (!post) return null;
     return (
       <div>
+        <Link to="/"><h1>Readable</h1></Link>
         <h1>{post.title}</h1>
         <p>{formatTimestamp(post.timestamp)}</p>
         <PostVoteScore voteScore={post.voteScore} id={post.id} />

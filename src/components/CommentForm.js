@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import InlineMessage from './InlineMessage';
 
@@ -103,6 +103,10 @@ class CommentForm extends React.Component {
   render() {
     return (
       <div>
+        {
+          this.props.comment &&
+            <Link to={`/posts/${this.props.comment.parentId}`}>&lt; Back to post</Link>
+        }
         <h1>New comment</h1>
         {
           this.state.hasError &&

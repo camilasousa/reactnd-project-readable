@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import Form from './Form';
 import InlineMessage from '../InlineMessage';
@@ -51,6 +51,7 @@ class PostForm extends React.Component {
     const { categories, postId, post } = this.props;
     return (
       <div>
+        <Link to="/"><h1>Readable</h1></Link>
         <h1>New post</h1>
         {
           this.state.hasError &&
