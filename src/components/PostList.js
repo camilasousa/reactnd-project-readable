@@ -72,7 +72,7 @@ Filter.defaultProps = {
 
 class PostList extends React.Component {
   state = {
-    selectedOption: 'timestamp',
+    selectedOption: 'voteScore',
   }
 
   handleFilterChange = option => this.setState({ selectedOption: option });
