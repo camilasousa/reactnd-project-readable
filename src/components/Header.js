@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Header = ({ categories }) => (
   <div>
-    <h1>Readable</h1>
+    <Link to="/"><h1>Readable</h1></Link>
     <ul>
       {
         categories && categories.map(cat => (
