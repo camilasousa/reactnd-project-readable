@@ -144,6 +144,7 @@ CommentForm.propTypes = {
     id: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
+    parentId: PropTypes.string.isRequired,
   }),
   postId: PropTypes.string,
   onSuccess: PropTypes.func,
