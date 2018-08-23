@@ -62,7 +62,7 @@ class PostForm extends React.Component {
             <InlineMessage message="Wait, creating post..." type="info" />
         }
         {
-          !postId || (post && post.id === postId) ?
+          !postId || (post && post.id === postId) || !categories ?
             <Form
               post={post}
               categories={categories}
