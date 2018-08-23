@@ -39,8 +39,8 @@ class PostDetail extends React.Component {
         <h1>{post.title}</h1>
         <p>{formatTimestamp(post.timestamp)}</p>
         <PostVoteScore voteScore={post.voteScore} id={post.id} />
-        <p>{post.author}</p>
-        <p>Author: {post.body}</p>
+        <p>Author: {post.author}</p>
+        <p>{post.body}</p>
         <Link to={`/posts/${post.id}/edit`}>Edit</Link>
         <DeletePostButton postId={post.id} />
         <CommentList comments={comments} />
