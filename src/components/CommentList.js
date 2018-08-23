@@ -3,9 +3,14 @@ import PropTypes from 'prop-types';
 
 import CommentDetail from './CommentDetail';
 
+const title = (comments) => {
+  if (!comments) return '0 comments';
+  return `${comments.length} comment${comments.length === 1 ? '' : 's'}`;
+};
+
 const CommentList = ({ comments }) => (
   <div>
-    <h2>Comments</h2>
+    <h2>{title(comments)}</h2>
     <ul>
       {
         comments && comments.map(comment => (
