@@ -43,7 +43,7 @@ class PostForm extends React.Component {
         this.props.createPost(data)
     );
     action
-      .then(post => this.props.history.push(`/posts/${post.id}`))
+      .then(post => this.props.history.push(`/${post.category}/${post.id}`))
       .catch(() => this.setState({ hasError: true, loading: false }));
   }
 

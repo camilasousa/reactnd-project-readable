@@ -24,7 +24,7 @@ const descSortPosts = (p1, p2, field) => {
 
 const PostItem = ({ post }) => (
   <li>
-    <h3><Link to={`/posts/${post.id}`}>{post.title}</Link></h3>
+    <h3><Link to={`/${post.category}/${post.id}`}>{post.title}</Link></h3>
     <p>{formatTimestamp(post.timestamp)}</p>
     <p>Author: {post.author}</p>
     <p>{post.commentCount} comment{post.commentCount !== 1 ? 's' : ''}</p>
