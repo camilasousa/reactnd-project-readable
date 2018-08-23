@@ -14,6 +14,7 @@ import CommentForm from './CommentForm';
 import DeletePostButton from './DeletePostButton';
 
 class PostDetail extends React.Component {
+  state = { postNotFound: null };
   componentDidMount() {
     this.fetchData();
   }
@@ -24,15 +25,33 @@ class PostDetail extends React.Component {
     }
   }
 
+  setStateToPostNotFound(postId) {
+    this.setState({ postNotFound: postId });
+  }
+
   fetchData() {
     const id = this.props.postId;
-    this.props.getPost(id);
+    this.props.getPost(id)
+      .then((post) => {
+        if (!post.id) {
+          this.setStateToPostNotFound(id);
+        }
+      })
+      .catch(() => this.setStateToPostNotFound(id));
     this.props.listComments(id);
   }
 
   render() {
-    const { post, comments } = this.props;
-    if (!post) return null;
+    const { post, comments, postId } = this.props;
+    if (this.state.postNotFound === postId) {
+      return (
+        <div>
+          <Link to="/"><h1>Readable</h1></Link>
+          <p>Post was not found.</p>
+        </div>
+      );
+    }
+    if (!post) return (<p>Loading...</p>);
     return (
       <div>
         <Link to="/"><h1>Readable</h1></Link>

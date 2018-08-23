@@ -58,7 +58,12 @@ export const loadPostsByCategory = categoryPath => (dispatch, getState) => (
 
 export const loadPost = id => (dispatch, getState) => (
   fetchPost(id, getState().token)
-    .then(post => dispatch(loadedPost(post)))
+    .then((post) => {
+      if (post.id) {
+        dispatch(loadedPost(post));
+      }
+      return post;
+    })
 );
 
 export const upVotePost = id => (dispatch, getState) => (
