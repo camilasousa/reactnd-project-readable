@@ -25,6 +25,8 @@ const PostItem = ({ post }) => (
   <li>
     <h3><Link to={`/posts/${post.id}`}>{post.title}</Link></h3>
     <p>{formatTimestamp(post.timestamp)}</p>
+    <p>Author: {post.author}</p>
+    <p>{post.commentCount} comment{post.commentCount !== 1 ? 's' : ''}</p>
     <PostVoteScore voteScore={post.voteScore} id={post.id} />
   </li>
 );
