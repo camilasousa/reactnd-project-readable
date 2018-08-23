@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { formatTimestamp } from '../utils/date-utils';
 
 import PostVoteScore from './PostVoteScore';
+import DeletePostButton from './DeletePostButton';
 
 const OPTIONS = [
   { value: 'timestamp', label: 'Date' },
@@ -28,6 +29,8 @@ const PostItem = ({ post }) => (
     <p>Author: {post.author}</p>
     <p>{post.commentCount} comment{post.commentCount !== 1 ? 's' : ''}</p>
     <PostVoteScore voteScore={post.voteScore} id={post.id} />
+    <Link to={`/posts/${post.id}/edit`}>Edit</Link>
+    <DeletePostButton postId={post.id} onSuccess={() => {}} />
   </li>
 );
 
