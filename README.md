@@ -4,6 +4,9 @@ Users are be able to post content to predefined categories, comment on their pos
 
 This project is part of the Nanodegree React Program.
 
+
+This project requires another one to run. It is hosted in: https://github.com/udacity/reactnd-project-readable-starter. Follow its README to set up the server needed in this one.
+
 ## Setup
  - npm install
 
