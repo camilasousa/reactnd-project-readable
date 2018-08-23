@@ -94,7 +94,7 @@ class PostList extends React.Component {
         />
         <ul>
           {
-            posts && posts.sort(
+            posts && [...posts].sort(
               (p1, p2) => descSortPosts(p1, p2, this.state.selectedOption),
             ).map(
               post => <PostItem key={post.id} post={post} />,
